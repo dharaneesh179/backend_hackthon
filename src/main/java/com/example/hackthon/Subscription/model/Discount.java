@@ -24,10 +24,12 @@ public class Discount {
     @ManyToOne
     private Plan plan;
 
+    private boolean active;  // Add the 'active' property
+
     public Discount() {
     }
 
-    public Discount(Long id, String code, String description, Double discountPercentage, LocalDate validFrom, LocalDate validTo, Plan plan) {
+    public Discount(Long id, String code, String description, Double discountPercentage, LocalDate validFrom, LocalDate validTo, Plan plan, boolean active) {
         this.id = id;
         this.code = code;
         this.description = description;
@@ -35,6 +37,7 @@ public class Discount {
         this.validFrom = validFrom;
         this.validTo = validTo;
         this.plan = plan;
+        this.active = active;  // Include the active field in the constructor
     }
 
     public Long getId() {
@@ -92,5 +95,12 @@ public class Discount {
     public void setPlan(Plan plan) {
         this.plan = plan;
     }
-}
 
+    public boolean isActive() {  // Add getter for active
+        return active;
+    }
+
+    public void setActive(boolean active) {  // Add setter for active
+        this.active = active;
+    }
+}

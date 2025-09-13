@@ -16,9 +16,13 @@ public class PlanService {
     }
 
     public Plan addPlan(Plan plan) {
+        if (planRepository.existsByNameIgnoreCase(plan.getName())) {
+            throw new IllegalArgumentException("Plan with the same name already exists");
+        }
         plan.setActive(true);
         return planRepository.save(plan);
     }
+
     public List<Plan> getAllPlans() {
         return planRepository.findByActiveTrue();
     }
@@ -32,6 +36,12 @@ public class PlanService {
         if (existingPlan == null) {
             return null;
         }
+        // Check if name is changing and if the new name is already taken by another plan
+        if (!existingPlan.getName().equalsIgnoreCase(planDetails.getName()) &&
+                planRepository.existsByNameIgnoreCase(planDetails.getName())) {
+            throw new IllegalArgumentException("Plan with the same name already exists");
+        }
+
         existingPlan.setName(planDetails.getName());
         existingPlan.setDescription(planDetails.getDescription());
         existingPlan.setPrice(planDetails.getPrice());
@@ -40,9 +50,16 @@ public class PlanService {
         return planRepository.save(existingPlan);
     }
 
-    public void deletePlan(Long id) {
+    public boolean deletePlan(Long id) {
         if (planRepository.existsById(id)) {
+            // Instead of deleting, you could just mark it inactive if you want soft delete
             planRepository.deleteById(id);
+            return true;
         }
+        return false;
+    }
+
+    public List<Plan> getPlansByPriceRange(Double minPrice, Double maxPrice) {
+        return planRepository.findByPriceBetween(minPrice, maxPrice);
     }
 }

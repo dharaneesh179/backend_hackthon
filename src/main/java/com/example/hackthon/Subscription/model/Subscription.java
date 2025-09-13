@@ -25,76 +25,37 @@ public class Subscription {
     @Enumerated(EnumType.STRING)
     private SubscriptionStatus status;
 
+    private boolean autoRenew;
+
     private LocalDateTime lastModified;
 
     public Subscription() {
     }
 
-    public Subscription(Long id, User user, Plan plan, LocalDate startDate, LocalDate endDate, boolean autoRenew, SubscriptionStatus status, Integer usedDataInGB, LocalDateTime lastModified) {
-        this.id = id;
-        this.user = user;
-        this.plan = plan;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.status = status;
-        this.lastModified = lastModified;
-    }
-
     // Getters and Setters
+    // ...
 
-    public Long getId() {
-        return id;
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public User getUser() { return user; }
+    public void setUser(User user) { this.user = user; }
 
-    public User getUser() {
-        return user;
-    }
+    public Plan getPlan() { return plan; }
+    public void setPlan(Plan plan) { this.plan = plan; }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
+    public LocalDate getStartDate() { return startDate; }
+    public void setStartDate(LocalDate startDate) { this.startDate = startDate; }
 
-    public Plan getPlan() {
-        return plan;
-    }
+    public LocalDate getEndDate() { return endDate; }
+    public void setEndDate(LocalDate endDate) { this.endDate = endDate; }
 
-    public void setPlan(Plan plan) {
-        this.plan = plan;
-    }
+    public SubscriptionStatus getStatus() { return status; }
+    public void setStatus(SubscriptionStatus status) { this.status = status; }
 
-    public LocalDate getStartDate() {
-        return startDate;
-    }
+    public boolean isAutoRenew() { return autoRenew; }
+    public void setAutoRenew(boolean autoRenew) { this.autoRenew = autoRenew; }
 
-    public void setStartDate(LocalDate startDate) {
-        this.startDate = startDate;
-    }
-
-    public LocalDate getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(LocalDate endDate) {
-        this.endDate = endDate;
-    }
-
-    public SubscriptionStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(SubscriptionStatus status) {
-        this.status = status;
-    }
-
-    public LocalDateTime getLastModified() {
-        return lastModified;
-    }
-
-    public void setLastModified(LocalDateTime lastModified) {
-        this.lastModified = lastModified;
-    }
+    public LocalDateTime getLastModified() { return lastModified; }
+    public void setLastModified(LocalDateTime lastModified) { this.lastModified = lastModified; }
 }
