@@ -8,6 +8,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/plans")
+@CrossOrigin(origins = "*")
 public class PlanController {
 
     private final PlanService planService;
@@ -28,12 +29,12 @@ public class PlanController {
 
     @GetMapping("/{id}")
     public Plan getPlanById(@PathVariable Long id) {
-        return planService.getPlanById(id); // returns null if not found
+        return planService.getPlanById(id);
     }
 
     @PutMapping("/{id}")
     public Plan updatePlan(@PathVariable Long id, @RequestBody Plan plan) {
-        return planService.updatePlan(id, plan); // returns null if not found
+        return planService.updatePlan(id, plan);
     }
 
     @DeleteMapping("/{id}")

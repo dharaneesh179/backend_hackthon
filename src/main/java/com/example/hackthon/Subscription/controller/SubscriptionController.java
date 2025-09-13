@@ -33,7 +33,6 @@ public class SubscriptionController {
     @Autowired
     private PlanRepository planRepository;
 
-    // GET /api/subscriptions - View own subscriptions
     @GetMapping
     public ResponseEntity<Map<String, Object>> getOwnSubscriptions(@RequestParam Long userId) {
         Optional<User> user = userRepository.findById(userId);
@@ -51,7 +50,6 @@ public class SubscriptionController {
         }
     }
 
-    // POST /api/subscriptions - Subscribe to plan
     @PostMapping
     public ResponseEntity<Map<String, Object>> subscribeToPlan(@RequestParam Long userId, @RequestParam Long planId) {
         Map<String, Object> response = new HashMap<>();
@@ -79,14 +77,14 @@ public class SubscriptionController {
         }
     }
 
-    // PUT /api/subscriptions/{id}/upgrade - Upgrade subscription
     @PutMapping("/{id}/upgrade")
     public ResponseEntity<Map<String, Object>> upgradeSubscription(@PathVariable Long id, @RequestParam Long newPlanId) {
         Map<String, Object> response = new HashMap<>();
         Optional<Subscription> existingSubscription = subscriptionRepository.findById(id);
         Optional<Plan> newPlan = planRepository.findById(newPlanId);
 
-        if (existingSubscription.isPresent() && newPlan.isPresent() && newPlan.get().getPrice() > existingSubscription.get().getPlan().getPrice()) {
+        if (existingSubscription.isPresent() && newPlan.isPresent()
+                && newPlan.get().getPrice() > existingSubscription.get().getPlan().getPrice()) {
             Subscription subscription = existingSubscription.get();
             subscription.setPlan(newPlan.get());
             subscription.setLastModified(LocalDateTime.now());
@@ -103,7 +101,6 @@ public class SubscriptionController {
         }
     }
 
-    // PUT /api/subscriptions/{id}/cancel - Cancel subscription
     @PutMapping("/{id}/cancel")
     public ResponseEntity<Map<String, Object>> cancelSubscription(@PathVariable Long id) {
         Map<String, Object> response = new HashMap<>();
@@ -126,7 +123,6 @@ public class SubscriptionController {
         }
     }
 
-    // GET /api/admin/subscriptions - Admin: view all subscriptions
     @GetMapping("/admin")
     public ResponseEntity<Map<String, Object>> getAllSubscriptions() {
         Map<String, Object> response = new HashMap<>();

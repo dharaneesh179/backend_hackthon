@@ -13,7 +13,6 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     private final UserRepository userRepository;
 
-    // Constructor-based injection
     public CustomUserDetailsService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
@@ -25,8 +24,14 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         UserBuilder builder = org.springframework.security.core.userdetails.User.withUsername(user.getUsername());
         builder.password(user.getPassword());
-        builder.roles(user.getRole().name()); // assuming role is an enum
 
+        // Strip ROLE_ if present, but typically role enum shouldn't have prefix
+        String role = user.getRole().name();
+        if (role.startsWith("ROLE_")) {
+            role = role.substring(5);
+        }
+
+        builder.roles(role);  // Spring Security will add "ROLE_" prefix internally
         return builder.build();
     }
 }

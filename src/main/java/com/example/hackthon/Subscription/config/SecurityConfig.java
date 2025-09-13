@@ -20,13 +20,11 @@ public class SecurityConfig {
         this.userDetailsService = userDetailsService;
     }
 
-    // Password encoder bean
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    // Authentication provider bean
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
@@ -40,17 +38,19 @@ public class SecurityConfig {
         return new ProviderManager(authenticationProvider());
     }
 
-    // Security filter chain bean
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/users/register", "/api/users/login").permitAll()
+                        .requestMatchers("/users/register", "/users/login").permitAll()
+                        .requestMatchers("/users/**").hasRole("USER")
                         .anyRequest().authenticated()
                 )
-                .formLogin(form -> form.disable())
-                .httpBasic();
+                .httpBasic()
+                .and()
+                .formLogin(form -> form.disable());
+
         return http.build();
     }
 }
