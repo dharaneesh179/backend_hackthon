@@ -43,9 +43,22 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
+                        // Public endpoints (no authentication needed)
                         .requestMatchers("/users/register", "/users/login").permitAll()
+
+                        // Admin only endpoints
                         .requestMatchers("/admin/**").hasRole("ADMIN")
+
+                        // User only endpoints
                         .requestMatchers("/users/**").hasRole("USER")
+
+                        // Shared endpoints accessible by both ADMIN and USER
+                        .requestMatchers("/api/subscriptions/**").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/api/plans/**").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/api/discounts/**").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/api/audit/**").hasRole("ADMIN") // example: audit logs only for admin
+
+                        // All other requests need to be authenticated
                         .anyRequest().authenticated()
                 )
                 .httpBasic()
