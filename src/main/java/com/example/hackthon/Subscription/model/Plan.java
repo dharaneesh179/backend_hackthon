@@ -87,7 +87,7 @@ public class Plan {
         return subscriptions;
     }
 
-    public void setSubscriptions(List<Subscription> subscriptions) {
+    public void setSubscriptionxs(List<Subscription> subscriptions) {
         this.subscriptions = subscriptions;
     }
 
